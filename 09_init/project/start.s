@@ -16,6 +16,40 @@ Copyright © zuozhongkai Co., Ltd. 1998-2019. All rights reserved.
  *		 运行环境。
  */
 _start:
+	ldr pc, = Reset_Handler
+	ldr pc, = Undefined_Handler
+	ldr pc, = SVC_Handler
+	ldr pc, = PrefAbort_Handler
+	ldr pc, = DataAbort_Handler
+	ldr pc, = NotUsed_Handler
+	ldr pc, = IRQ_Handler
+	ldr pc, = FIQ_Handler
+
+Reset_Handler:
+	ldr r0, = Reset_Handler
+	bx r0
+Undefined_Handler:
+	ldr r0, = Undefined_Handler
+	bx r0
+SVC_Handler:
+	ldr r0, = SVC_Handler
+	bx r0
+PrefAbort_Handler:
+	ldr r0, = PrefAbort_Handler
+	bx r0
+DataAbort_Handler:
+	ldr r0, = DataAbort_Handler
+	bx r0
+NotUsed_Handler:
+	ldr r0, = NotUsed_Handler
+	bx r0
+IRQ_Handler:
+	ldr r0, = IRQ_Handler
+	bx r0
+FIQ_Handler:
+	ldr r0, = FIQ_Handler
+	bx r0
+
 
 	/* 进入SVC模式 */
 	mrs r0, cpsr
