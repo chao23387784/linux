@@ -36,12 +36,14 @@ Reset_Handler:
 	bic r0, r0, #0x01 // close MMU
 	mcr p15, 0, r0, c1, c0, 0 //write r0 to CP15 c1
 
+#if 0
 	ldr r0, = 0x87800000
 	dsb
 	isb
 	mcr p15, 0, r0, c12, c0, 0//set interrupt vector address
 	dsb
 	isb
+#endif
 
 	/* enter IQR mode and init stack pointer */
 	mrs r0, cpsr
