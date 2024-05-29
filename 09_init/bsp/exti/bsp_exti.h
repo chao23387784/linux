@@ -1,9 +1,17 @@
 #ifndef BSP_EXTI_H
 #define BSP_EXTI_H
-#include "MCIMX6Y2.h"
-#include "fsl_common.h"
-#include "fsl_iomuxc.h"
+#include "imx6u.h"
 
-void exti_init(void);
+enum GPIO_INTTYPE{
+    GPIO_LOW_LEVEL,
+    GPIO_HIGH_LEVEL,
+    GPIO_RISING_EDGE,
+    GPIO_FALLING_EDGE,
+    GPIO_EDGE
+};
+
+void setGpioInt(GPIO_Type* gpio,int pin,enum GPIO_INTTYPE type);
+void exti_init();
+void exti_handler(unsigned int int_id,void* param);
 
 #endif // !BSP_EXTI_H
