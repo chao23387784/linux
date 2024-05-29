@@ -3,7 +3,7 @@
 void int_init(void)
 {
     GIC_Init();
-
+    init_inttable();
     __set_VBAR(0x87800000);//set interrupt vector address
 }
 
@@ -22,12 +22,12 @@ void init_inttable()
     }
 }
 
-void register_interrupt_handler(unsigned int int_id,int_handler handler,void* param)
+void register_interrupt_handler(IRQn_Type type,int_handler handler,void* param)
 {
-    if(int_id < NUMBER_OF_INT_VECTORS)
+    if(type < NUMBER_OF_INT_VECTORS)
     {
-        int_table[int_id].handler = handler;
-        int_table[int_id].param = param;
+        int_table[type].handler = handler;
+        int_table[type].param = param;
     }
 }
 
