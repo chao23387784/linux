@@ -4,31 +4,24 @@
 #include "bsp_delay.h"
 #include "bsp_beep.h"
 #include "bsp_key.h"
+#include "bsp_int.h"
+#include "bsp_epit.h"
 
 int main(void)
 {
-	int flag = 0;
+	//int flag = 0;
 
 	imx6u_clkinit();
 	clk_enable();		/* 使能所有的时钟 			*/
 	led_init();			/* 初始化led 			*/
 	beep_init();
 	key_init();
+	int_init();
+	init_epit(500);
 
 	while(1)			/* 死循环 				*/
 	{	
-		if(get_key_value())
-		{
-			if(flag)
-			{
-				led_off();		/* 关闭LED 			*/
-				beep_off();
-			}else{
-				led_on();		/* 打开LED 			*/
-				beep_on();
-			}
-			flag = !flag;
-		}
+		delay(500);
 	}
 
 	return 0;

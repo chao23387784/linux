@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "imx6u.h": "c"
+        "imx6u.h": "c",
+        "bsp_led.h": "c"
     }
 }
