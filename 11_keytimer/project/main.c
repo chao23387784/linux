@@ -6,6 +6,7 @@
 #include "bsp_key.h"
 #include "bsp_int.h"
 #include "bsp_epit.h"
+#include "bsp_keytimer.h"
 
 int main(void)
 {
@@ -17,7 +18,8 @@ int main(void)
 	beep_init();
 	key_init();
 	int_init();
-	init_epit(500);
+	keytimer_init(10);
+	//init_epit(500);
 
 	while(1)			/* 死循环 				*/
 	{	
