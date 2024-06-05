@@ -1,6 +1,7 @@
 #include "bsp_epit.h"
 #include "bsp_int.h"
 #include "bsp_led.h"
+#include "bsp_beep.h"
 
 void init_epit(unsigned int milliseconds)
 {
@@ -27,14 +28,18 @@ void epit_handler(unsigned int int_id,void* param)
         return;
     }
     
-    static unsigned char state = 0;
+    static unsigned char state = 1;
     state = !state;
 
     if(state)
     {
         led_on();
+        beep_on();
     }else
     {
         led_off();
+        beep_off();
     }
+
+    EPIT1->SR |= (1 << 0);
 }
