@@ -19,11 +19,12 @@ int main(void)
 	key_init();
 	int_init();
 	keytimer_init(10);
+	delay_init();
 	//init_epit(500);
 
 	while(1)			/* 死循环 				*/
 	{	
-		delay(500);
+		delay_milliseconds(500);
 	}
 
 	return 0;
