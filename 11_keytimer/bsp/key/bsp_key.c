@@ -6,7 +6,8 @@ void key_init(void)
 {
     IOMUXC_SetPinMux(IOMUXC_UART1_CTS_B_GPIO1_IO18,0);
     IOMUXC_SetPinConfig(IOMUXC_UART1_CTS_B_GPIO1_IO18,0XF080);
-    setGpioConfig(GPIO1,18,GPIO_INPUT,0);
+    setGpioConfig(GPIO1,18,GPIO_INPUT,0);//set gpio input/output
+    setGpioInt(GPIO1,18,GPIO_FALLING_EDGE);//set gpio interrupt trigger type
 }
 
 int read_key(void)

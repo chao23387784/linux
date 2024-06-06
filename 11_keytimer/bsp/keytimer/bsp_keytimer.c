@@ -66,10 +66,7 @@ void keyint_handler(unsigned int int_id,void* param)
 void restart_timer()
 {
     EPIT1->CR &= ~(0x01 << 0);//disable clk slot
-    //EPIT1->CNR = EPIT1->LR;//reset count
-    unsigned int tickPerMilliSec = 66*1000*1000/1000;
-    unsigned int tickPerPeriod = tickPerMilliSec * 10;
-    EPIT1->LR = tickPerPeriod; //set load value to tickPerPeriod
+    EPIT1->LR = 660000; //set lr to 10ms per tick freq
     EPIT1->CR |= (0x01 << 0); //enable clk slot
 }
 
