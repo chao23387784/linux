@@ -3,6 +3,7 @@
 #include "bsp_gpio.h"
 #include "bsp_key.h"
 #include "bsp_beep.h"
+#include "bsp_led.h"
 
 void keytimer_init(unsigned int milliseconds)
 {
@@ -22,7 +23,7 @@ void keytimer_init(unsigned int milliseconds)
     //EPIT1->CR |= (0x01 << 0); //enable clk slot
 
 
-    register_interrupt_handler(GPIO1_Combined_16_31_IRQn,keyint_handler,0);
+    register_interrupt_handler(GPIO1_Combined_16_31_IRQn,keyint_handler,NULL);
     GIC_EnableIRQ(GPIO1_Combined_16_31_IRQn);//enable interrupt signal
     enableInt(GPIO1,18);//enable interrupt slot
 }
@@ -31,16 +32,18 @@ void keytimer_handler(unsigned int int_id,void* param)
 {
     if(int_id == EPIT1_IRQn)
     {
-        static unsigned int state = 0;
+        static unsigned int state = 1;
         stop_timer();
         if(read_key() == 0)
         {
             state = !state;
             if(state)
             {
+                led_on();
                 beep_on();
             }else
             {
+                led_off();
                 beep_off();
             }
         }
@@ -52,10 +55,10 @@ void keyint_handler(unsigned int int_id,void* param)
 {
     if(int_id == GPIO1_Combined_16_31_IRQn)
     {
-        if(read_key() == 0)
-        {
+        //if(read_key() == 0)
+        //{
             restart_timer();
-        }
+        //}
         clearIntFlag(GPIO1,18);
     }
 }
@@ -63,7 +66,7 @@ void keyint_handler(unsigned int int_id,void* param)
 void restart_timer()
 {
     EPIT1->CR &= ~(0x01 << 0);//disable clk slot
-    EPIT1->CNR = EPIT1->LR;//reset count
+    EPIT1->LR = 660000; //set lr to 10ms per tick freq
     EPIT1->CR |= (0x01 << 0); //enable clk slot
 }
 

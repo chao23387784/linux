@@ -17,9 +17,9 @@ int main(void)
 	led_init();			/* 初始化led 			*/
 	beep_init();
 	key_init();
+	delay_init();
 	int_init();
 	keytimer_init(10);
-	delay_init();
 	//init_epit(500);
 
 	while(1)			/* 死循环 				*/

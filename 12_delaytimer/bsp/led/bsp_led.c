@@ -26,7 +26,7 @@ void led_init(void)
 void led_on(void)
 {
 	/* 将GPIO1_DR的bit3清零 	*/
-	writeGpioValue(GPIO1,18,0);
+	writeGpioValue(GPIO1,3,0);
 }
 
 void led_off(void)
