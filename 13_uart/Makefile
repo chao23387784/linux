@@ -17,6 +17,7 @@ INCDIRS = imx6u \
 		  bsp/exti \
 		  bsp/epit \
 		  bsp/keytimer \
+		  bsp/uart 
 
 SRCDIRS = project \
 		  bsp/clk \
@@ -28,7 +29,8 @@ SRCDIRS = project \
 		  bsp/int \
 		  bsp/exti \
 		  bsp/epit  \
-		  bsp/keytimer 
+		  bsp/keytimer \
+		  bsp/uart 
 
 INCLUDE = $(patsubst %,-I %,$(INCDIRS))
 SFILES = $(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.s))
