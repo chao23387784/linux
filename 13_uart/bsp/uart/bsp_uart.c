@@ -9,11 +9,15 @@ void uart_init()
 
     UART1->UCR1 = 0;//claer uart1 state and disbale it
 
+    UART1->UCR2 |= (0x01 << 0);//reset uart1
+    while(!(UART1->UCR2 & 0x01));//wait for uart1 reset complete
+
     UART1->UCR2 |= (1 << 1);//enable rx
     UART1->UCR2 |= (1 << 2);//enable tx
     UART1->UCR2 |= (1 << 5);//set 8bit data
     UART1->UCR2 &= ~(1 << 6);//set 1bit stop
     UART1->UCR2 &= ~(1 << 8);//disable parity check
+    UART1->UCR2 |= (1 << 14);//ignore RTS ??
 
     UART1->UFCR |= (5 << 7);//freq set devide by 1
     //set baudrate
@@ -27,6 +31,7 @@ void uart_init()
 
 void putc(unsigned char c)
 {
+    while(!(UART1->USR2 & 0x08));//wait for transmit complete
     UART1->UTXD = c;
 }
 
@@ -43,7 +48,7 @@ void puts(unsigned char* s)
 unsigned char getc()
 {
     unsigned char c = 0;
-    while(!(UART1->URXD & (1 << 15)));
+    while(!(UART1->USR2 & 0x01));//wait for received ready
     c = (UART1->URXD & 0xff);
     return c;
 }
