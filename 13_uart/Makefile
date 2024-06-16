@@ -5,6 +5,7 @@ LD = $(CROSS_COMPILE)ld
 OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
 CC = $(CROSS_COMPILE)gcc
+LIBPATH	:= -lgcc -L /usr/local/arm/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/lib/gcc/arm-linux-gnueabihf/4.9.4
 
 INCDIRS = imx6u \
 		  bsp/clk \
@@ -17,7 +18,8 @@ INCDIRS = imx6u \
 		  bsp/exti \
 		  bsp/epit \
 		  bsp/keytimer \
-		  bsp/uart 
+		  bsp/uart \
+		  stdio/include 
 
 SRCDIRS = project \
 		  bsp/clk \
@@ -30,7 +32,8 @@ SRCDIRS = project \
 		  bsp/exti \
 		  bsp/epit  \
 		  bsp/keytimer \
-		  bsp/uart 
+		  bsp/uart \
+		  stdio/lib 
 
 INCLUDE = $(patsubst %,-I %,$(INCDIRS))
 SFILES = $(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.s))
@@ -46,14 +49,14 @@ OBJS = $(SOBJS) $(COBJS)
 VPATH = $(SRCDIRS)
 
 $(TARGET).bin : $(OBJS)
-	$(LD) -Timx6ul.lds -o $(TARGET).elf $^
+	$(LD) -Timx6ul.lds -o $(TARGET).elf $^ $(LIBPATH)
 	$(OBJCOPY) -O binary -S $(TARGET).elf $@
 	$(OBJDUMP) -D -m arm $(TARGET).elf > $(TARGET).dis
 
 $(SOBJS) : obj/%.o : %.s
-	$(CC) -Wall -nostdlib -c $(INCLUDE) -O2 -o $@ $<
+	$(CC) -Wall -nostdlib -fno-builtin -c $(INCLUDE) -O2 -o $@ $<
 $(COBJS) : obj/%.o : %.c
-	$(CC) -Wall -nostdlib -c $(INCLUDE) -O2 -o $@ $<
+	$(CC) -Wall -Wa,-mimplicit-it=thumb -nostdlib -fno-builtin -c $(INCLUDE) -O2 -o $@ $<
 
 .PHONY : clean
 clean :
